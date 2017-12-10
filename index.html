@@ -34,6 +34,9 @@ var svg = d3.select("svg"),
 
 var parseDate = d3.timeParse("%Y-%m-%d");
 
+var iphoneXLaunchDate = "2017-11-03";
+var parsedIphoneXLaunchDate = parseDate(iphoneXLaunchDate);
+
 var x = d3.scaleTime().range([0, width]),
     x2 = d3.scaleTime().range([0, width]),
     y = d3.scaleLinear().range([height, 0]),
@@ -69,7 +72,6 @@ var zoom = d3.zoom()
         .x(function (d) { return x2(d.Date); })
         .y(function (d) { return y2(d.NO_OPINION); });
 
-
     var clip = svg.append("defs").append("svg:clipPath")
         .attr("id", "clip")
         .append("svg:rect")
@@ -96,10 +98,8 @@ var context = svg.append("g")
 d3.csv("/data/tweet_data.csv", type, function (error, data) {
   if (error) throw error;
 
-
-
   x.domain(d3.extent(data, function(d) { return d.Date; }));
-  y.domain([0, d3.max(data, function (d) { return d.NO_OPINION })]);
+  y.domain([0, d3.max(data, function (d) { return d.NO_OPINION })]);//max number
   x2.domain(x.domain());
   y2.domain(y.domain());
 
@@ -132,6 +132,18 @@ d3.csv("/data/tweet_data.csv", type, function (error, data) {
 	.datum(data)
 	.attr("class", "line-red")
 	.attr("d", line12);
+
+	/*svg.append("path")
+		.attr("stroke","black")
+		.attr("x1", x(parsedIphoneXLaunchDate))     // x position of the first end of the line
+	    .attr("y1", y(0))      // y position of the first end of the line
+	    .attr("x2", x(parsedIphoneXLaunchDate))     // x position of the second end of the line
+	    .attr("y2", y(500));    // y position of the second end of the line
+		
+		/*.attr({
+	 	   x1: x( parsedIphoneXLaunchDate ), y1: y(0), 
+           x2: x( parsedIphoneXLaunchDate ), y2: y(500) 
+		})*/
 
   context.append("g")
       .attr("class", "axis axis--x")
@@ -179,5 +191,6 @@ function type(d) {
   d.NO_OPINION = +d.NO_OPINION;
   return d;
 }
+
 
 </script>

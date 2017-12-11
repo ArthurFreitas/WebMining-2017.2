@@ -1,4 +1,4 @@
-	<!DOCTYPE html>
+<!DOCTYPE html>
 <meta charset="utf-8">
 <style>
 
@@ -133,17 +133,24 @@ d3.csv("/data/tweet_data.csv", type, function (error, data) {
 	.attr("class", "line-red")
 	.attr("d", line12);
 
-	/*svg.append("path")
-		.attr("stroke","black")
+	Line_chart.append("line")
+		.attr("class","launch-line")
+		.style("stroke-width", 1)
+		.style("stroke", "black")
+		.style("fill", "none")
 		.attr("x1", x(parsedIphoneXLaunchDate))     // x position of the first end of the line
 	    .attr("y1", y(0))      // y position of the first end of the line
 	    .attr("x2", x(parsedIphoneXLaunchDate))     // x position of the second end of the line
-	    .attr("y2", y(500));    // y position of the second end of the line
-		
-		/*.attr({
-	 	   x1: x( parsedIphoneXLaunchDate ), y1: y(0), 
-           x2: x( parsedIphoneXLaunchDate ), y2: y(500) 
-		})*/
+	    .attr("y2", 0);    // y position of the second end of the 
+
+	context.append("line")
+	.style("stroke-width", 1)
+	.style("stroke", "black")
+	.style("fill", "none")
+	.attr("x1", x(parsedIphoneXLaunchDate))     // x position of the first end of the line
+    .attr("y1", y(0))      // y position of the first end of the line
+    .attr("x2", x(parsedIphoneXLaunchDate))     // x position of the second end of the line
+    .attr("y2", 0);    // y position of the second end of the 
 
   context.append("g")
       .attr("class", "axis axis--x")
@@ -168,7 +175,12 @@ function brushed() {
   var s = d3.event.selection || x2.range();
   x.domain(s.map(x2.invert, x2));
   Line_chart.select(".line").attr("d", line);
-   Line_chart.select(".line-red").attr("d", line1);
+  Line_chart.select(".line-red").attr("d", line1);
+  Line_chart.select(".launch-line")
+		.attr("x1", x(parsedIphoneXLaunchDate))     // x position of the first end of the line
+	    .attr("y1", y(0))      // y position of the first end of the line
+	    .attr("x2", x(parsedIphoneXLaunchDate))     // x position of the second end of the line
+	    .attr("y2", 0);    // y position of the second end of the 
   focus.select(".axis--x").call(xAxis);
   svg.select(".zoom").call(zoom.transform, d3.zoomIdentity
       .scale(width / (s[1] - s[0]))
@@ -181,6 +193,11 @@ function zoomed() {
   x.domain(t.rescaleX(x2).domain());
   Line_chart.select(".line").attr("d", line);
   Line_chart.select(".line-red").attr("d", line1);
+    Line_chart.select(".launch-line")
+		.attr("x1", x(parsedIphoneXLaunchDate))     // x position of the first end of the line
+	    .attr("y1", y(0))      // y position of the first end of the line
+	    .attr("x2", x(parsedIphoneXLaunchDate))     // x position of the second end of the line
+	    .attr("y2", 0);    // y position of the second end of the 
   focus.select(".axis--x").call(xAxis);
   context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
 }
